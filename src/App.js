@@ -89,17 +89,17 @@ function App() {
     console.log("Sending request...");
     // Stop request here because I need to remove my API key to deploy to Heroku by creating a new git brang called main
 
-    // const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
-    // createRequest(requestUrl);
+    const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
+    createRequest(requestUrl);
 
     // Now I need to trigger the state change without the XHR request.
-    setState({ ...state, status: "formConfirmed" });
+    // setState({ ...state, status: "formConfirmed" });
   }
 
   /* Address Validation */
 
   const baseUrl =
-    "http://api.positionstack.com/v1/forward?access_key=POSSTACK_APIKEY&query=";
+    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_PS_KEY}&query=`;
 
   // Server Request
   const updateUISuccess = function (response) {
