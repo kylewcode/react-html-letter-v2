@@ -41,27 +41,46 @@ function Modal({
   const addressJSX = [];
   dataStore.forEach((location, key) => {
     const address = `${location.number} ${location.street} ${location.locality} ${location.region_code} ${location.postal_code}`;
-    addressJSX.push(
-      <div key={key}>
-        <input
-          type="radio"
-          name="address-validate"
-          id={`valid-${key}`}
-          value={address}
-          /* Data attributes reflect JSON data */
-          data-address-number={location.number}
-          data-address-street={location.street}
-          data-address-locality={location.locality}
-          data-address-region-code={location.region_code}
-          data-address-zip-code={location.postal_code}
-        />
-        <label htmlFor={`valid-${key}`}>{address}</label>
-      </div>
-    );
+    // Don't push the radio button if any of the data needed returns null. If every data point is not null or undefined
+    
+    // Expects array of the values of the location object.
+    const locationValues = [location.number, location.street, location.locality, location.region_code, location.postal_code];
+    const checkNull = (arr) => {
+      return arr.every(element => {
+        return element !== null && element !== undefined;
+      });
+    };
+
+    if (checkNull(locationValues)) {
+      addressJSX.push(
+        <div key={key}>
+          <input
+            type="radio"
+            name="address-validate"
+            id={`valid-${key}`}
+            value={address}
+            /* Data attributes reflect JSON data */
+            data-address-number={location.number}
+            data-address-street={location.street}
+            data-address-locality={location.locality}
+            data-address-region-code={location.region_code}
+            data-address-zip-code={location.postal_code}
+          />
+          <label htmlFor={`valid-${key}`}>{address}</label>
+        </div>
+      );
+    }
   });
 
   function handleSubmit(e) {
     e.preventDefault();
+    // Prevents build error from having only one radio button.
+    if (e.target.elements[0].id === 'valid-none') {
+      alert("Please enter a correct address and submit again.");
+      modalSetState({ ...childState, status: "fillingOutForm" });
+      return;
+    }
+
     const radioNodeList = e.target.elements["address-validate"];
     radioNodeList.forEach((node) => {
       if (node.checked === true && node.defaultValue === "N/A") {

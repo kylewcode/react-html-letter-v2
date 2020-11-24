@@ -59,7 +59,7 @@ function Display({
           </p>
         </address>
         <div className="sender-column">
-          <time dateTime="2016-01-20">20 January 2016</time>
+    <time dateTime="2016-01-20">{date}</time>
         </div>
         <address>
           <p>
@@ -121,7 +121,7 @@ function Display({
           <br />
           <br />
           You can find more information about{" "}
-          <a href="http://example.com." target="_blank">
+          <a href="http://example.com." target="_blank" rel="noreferrer">
             important university dates
           </a>
           on our website.
@@ -199,7 +199,7 @@ function Display({
         </dl>
         <p>
           For more of my research, see my{" "}
-          <a href="http://example.com." target="_blank">
+          <a href="http://example.com." target="_blank" rel="noreferrer">
             exotic dance research page
           </a>
           .
@@ -213,7 +213,7 @@ function Display({
           <br />
           University of Awesome motto: <q>
             Be awesome to each other.
-          </q> --{" "}
+          </q> --
           <cite>
             The memoirs of Bill S Preston,
             <abbr title="An abbreviation for esquire."> Esq</abbr>

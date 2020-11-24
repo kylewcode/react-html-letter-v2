@@ -70,12 +70,12 @@ function App() {
     firstName: "Kyle",
     lastName: "Williams",
     streetNumber: "10308",
-    streetName: "Kennebec Ct",
+    streetName: "Kenn",
     aptSuite: "",
     city: "Orlando",
     stateName: "Florida",
     zipcode: "32817",
-    date: "2020-11-17",
+    date: "2020-11-23",
     isFemale: false,
     isMarried: false,
     status: "fillingOutForm",
@@ -88,7 +88,7 @@ function App() {
     e.preventDefault();
     console.log("Sending request...");
     // Stop request here because I need to remove my API key to deploy to Heroku by creating a new git brang called main
-
+    
     const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
     createRequest(requestUrl);
 
@@ -144,7 +144,7 @@ function App() {
               id="user-first-name"
               value={state.firstName}
               placeholder="First name*"
-              // required
+              required
               onChange={(e) =>
                 setState({ ...state, firstName: e.target.value })
               }
@@ -158,7 +158,7 @@ function App() {
               id="user-last-name"
               value={state.lastName}
               placeholder="Last name*"
-              // required
+              required
               onChange={(e) => setState({ ...state, lastName: e.target.value })}
             />
           </li>
@@ -238,7 +238,8 @@ function App() {
               type="date"
               name="date"
               id="date-input"
-              // required
+              value={state.date}
+              required
               onChange={(e) => setState({ ...state, date: e.target.value })}
             />
           </li>
@@ -249,7 +250,7 @@ function App() {
                 type="radio"
                 name="gender"
                 id="male"
-                // required
+                required
                 onClick={(e) => setState({ ...state, isFemale: false })}
               />
               <label htmlFor="male">Male</label>
@@ -259,7 +260,7 @@ function App() {
                 type="radio"
                 name="gender"
                 id="female"
-                // required
+                required
                 onClick={(e) => setState({ ...state, isFemale: true })}
               />
               <label htmlFor="female">Female</label>
@@ -272,7 +273,7 @@ function App() {
                 type="radio"
                 name="married"
                 id="married-yes"
-                // required
+                required
                 onClick={(e) => setState({ ...state, isMarried: true })}
               />
               <label htmlFor="married-yes">Yes</label>
@@ -282,7 +283,7 @@ function App() {
                 type="radio"
                 name="married"
                 id="married-no"
-                // required
+                required
                 onClick={(e) => setState({ ...state, isMarried: false })}
               />
               <label htmlFor="married-no">No</label>
