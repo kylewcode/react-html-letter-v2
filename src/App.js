@@ -67,15 +67,15 @@ function App() {
   }
 
   const initState = {
-    firstName: "Kyle",
-    lastName: "Williams",
-    streetNumber: "10308",
-    streetName: "Kenn",
+    firstName: "",
+    lastName: "",
+    streetNumber: "",
+    streetName: "",
     aptSuite: "",
-    city: "Orlando",
-    stateName: "Florida",
-    zipcode: "32817",
-    date: "2020-11-23",
+    city: "",
+    stateName: "",
+    zipcode: "",
+    date: "",
     isFemale: false,
     isMarried: false,
     status: "fillingOutForm",
@@ -215,7 +215,7 @@ function App() {
                   setState({ ...state, stateName: e.currentTarget.value })
                 }
               >
-                <option value="">Select state*</option>
+                <option>Select state*</option>
                 {statesJSX}
               </select>
               <input
