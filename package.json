@@ -21,7 +21,10 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "testing-library/react",
+      "jest-dom",
+      "jest-dom/recommended"
     ]
   },
   "browserslist": {
@@ -38,6 +41,8 @@
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-jest-dom": "^3.3.0",
+    "eslint-plugin-testing-library": "^3.10.1",
     "prettier": "2.2.0",
     "react-test-renderer": "^17.0.1"
   }
