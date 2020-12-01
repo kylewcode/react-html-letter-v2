@@ -83,7 +83,6 @@ button {
 
 .user-inputs fieldset input,
 .user-inputs fieldset select {
-  display: block;
   margin: 8px auto;
 }
 

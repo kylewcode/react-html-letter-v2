@@ -22,9 +22,8 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "testing-library/react",
-      "jest-dom",
-      "jest-dom/recommended"
+      "plugin:testing-library/react",
+      "plugin:jest-dom/recommended"
     ]
   },
   "browserslist": {

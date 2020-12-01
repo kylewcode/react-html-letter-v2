@@ -19,8 +19,8 @@ it('renders without crashing and has empty inputs.', () => {
     expect(input).toHaveValue("");
   });
   const selectInput = screen.getByRole('combobox');
-  expect(selectInput).toHaveValue('Select state*');
-  const dateInput = screen.getByLabelText('Enter Date*');
+  expect(selectInput).toHaveValue('Select state');
+  const dateInput = screen.getByLabelText('Enter date');
   expect(dateInput).toHaveValue('');
   const radioInputs = screen.getAllByRole('radio');
   radioInputs.forEach( input => {

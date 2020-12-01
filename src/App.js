@@ -133,7 +133,7 @@ function App() {
   const formElement = (
     <div className="user-inputs">
       <h1>Formal Letter Generator</h1>
-      <p className="required-field">Required fields are marked with *</p>
+      <p className="required-field">All fields required except Apt/Suite #</p>
       <form onSubmit={handleSubmit}>
         <ul>
           <li className="bg-bright">
@@ -143,7 +143,6 @@ function App() {
               name="first-name"
               id="user-first-name"
               value={state.firstName}
-              placeholder="First name*"
               required
               onChange={(e) =>
                 setState({ ...state, firstName: e.target.value })
@@ -157,83 +156,95 @@ function App() {
               name="last-name"
               id="user-last-name"
               value={state.lastName}
-              placeholder="Last name*"
               required
               onChange={(e) => setState({ ...state, lastName: e.target.value })}
             />
           </li>
           <li className="bg-light">
             <fieldset>
-              <legend>Enter your mailing address</legend>
-              <input
-                type="text"
-                name="street-number"
-                id="user-street-number"
-                value={state.streetNumber}
-                placeholder="Street number*"
-                required
-                pattern="\d+"
-                onChange={(e) =>
-                  setState({ ...state, streetNumber: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                name="street-name"
-                id="user-street-name"
-                value={state.streetName}
-                placeholder="Street Name*"
-                required
-                onChange={(e) =>
-                  setState({ ...state, streetName: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                name="apt-suite"
-                id="user-apt-suite"
-                value={state.aptSuite}
-                placeholder="Apt/Suite #"
-                onChange={(e) =>
-                  setState({ ...state, aptSuite: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                name="city"
-                id="user-city"
-                value={state.city}
-                placeholder="City*"
-                required
-                onChange={(e) => setState({ ...state, city: e.target.value })}
-              />
-              <select
-                name="state"
-                id="state-select"
-                required
-                onChange={(e) =>
-                  setState({ ...state, stateName: e.currentTarget.value })
-                }
-              >
-                <option>Select state*</option>
-                {statesJSX}
-              </select>
-              <input
-                type="text"
-                name="zipcode"
-                id="user-zipcode"
-                value={state.zipcode}
-                placeholder="Zipcode*"
-                required
-                pattern="\d{5}"
-                onChange={(e) =>
-                  setState({ ...state, zipcode: e.target.value })
-                }
-              />
+              <legend>Mailing address</legend>
+              <div>
+                <label htmlFor="user-street-number">Enter street number</label>
+                <input
+                  type="text"
+                  name="street-number"
+                  id="user-street-number"
+                  value={state.streetNumber}
+                  required
+                  pattern="\d+"
+                  onChange={(e) =>
+                    setState({ ...state, streetNumber: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label htmlFor="user-street-name">Enter street name</label>
+                <input
+                  type="text"
+                  name="street-name"
+                  id="user-street-name"
+                  value={state.streetName}
+                  required
+                  onChange={(e) =>
+                    setState({ ...state, streetName: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label htmlFor="user-apt-suite">Enter Apt/Suite</label>
+                <input
+                  type="text"
+                  name="apt-suite"
+                  id="user-apt-suite"
+                  value={state.aptSuite}
+                  onChange={(e) =>
+                    setState({ ...state, aptSuite: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label htmlFor="user-city">Enter city</label>
+                <input
+                  type="text"
+                  name="city"
+                  id="user-city"
+                  value={state.city}
+                  required
+                  onChange={(e) => setState({ ...state, city: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="state-select">Select state</label>
+                <select
+                  name="state"
+                  id="state-select"
+                  required
+                  onChange={(e) =>
+                    setState({ ...state, stateName: e.currentTarget.value })
+                  }
+                >
+                  <option>Select state</option>
+                  {statesJSX}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="user-zipcode">Enter zipcode</label>
+                <input
+                  type="text"
+                  name="zipcode"
+                  id="user-zipcode"
+                  value={state.zipcode}
+                  required
+                  pattern="\d{5}"
+                  onChange={(e) =>
+                    setState({ ...state, zipcode: e.target.value })
+                  }
+                />
+              </div>
             </fieldset>
           </li>
           <li className="bg-bright">
-            <label htmlFor="date-input">Enter Date*</label>
+            <label htmlFor="date-input">Enter date</label>
             <input
               type="date"
               name="date"
@@ -244,7 +255,7 @@ function App() {
             />
           </li>
           <li className="bg-light">
-            <p>Select Gender*</p>
+            <p>Select gender</p>
             <div>
               <input
                 type="radio"
@@ -267,7 +278,7 @@ function App() {
             </div>
           </li>
           <li className="bg-bright">
-            <p>Are you married?*</p>
+            <p>Are you married?</p>
             <div>
               <input
                 type="radio"
