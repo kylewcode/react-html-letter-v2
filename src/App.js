@@ -95,7 +95,7 @@ function App() {
   /* Address Validation */
 
   const baseUrl =
-    `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_POSSTACK_APIKEY}&query=`;
+    `http://api.positionstack.com/v1/forward?access_key=${process.env.POSSTACK_APIKEY}&query=`;
 
   // Server Request
   const updateUISuccess = function (response) {
