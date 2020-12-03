@@ -67,7 +67,7 @@ function Display({
               {namePrefix()} {firstName} {lastName}
             </b>
             <br />
-            {streetNumber} {streetName} {aptSuite ? aptSuite : null}
+            {streetNumber} {streetName} {aptSuite ? `#${aptSuite}` : null}
             <br />
             {city}, {stateName} {zipcode}
             <br />

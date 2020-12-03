@@ -57,6 +57,7 @@ function App() {
     "Wisconsin",
     "Wyoming",
   ];
+  
   const statesJSX = [];
   for (const [index, value] of states.entries()) {
     statesJSX.push(
@@ -81,19 +82,14 @@ function App() {
     status: "fillingOutForm",
     dataStore: {},
   };
-
+  
   const [state, setState] = useState(() => initState);
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Sending request...");
-    // Stop request here because I need to remove my API key to deploy to Heroku by creating a new git brang called main
-    
     const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
     createRequest(requestUrl);
-
-    // Now I need to trigger the state change without the XHR request.
-    // setState({ ...state, status: "formConfirmed" });
   }
 
   /* Address Validation */
@@ -310,16 +306,18 @@ function App() {
 
   return (
     <div>
-      {state.status === "fillingOutForm" && formElement}
-      {state.status === "formSubmitted" && (
-        <React.Fragment>
-          <Modal modalState={state} modalSetState={setState} />
-          {formElement}
-        </React.Fragment>
-      )}
-      {state.status === "formConfirmed" && (
-        <Display displayState={state} displaySetState={setState} />
-      )}
+      {state.status === "fillingOutForm" ? formElement : null}
+      {state.status === "formSubmitted" ? (
+          <React.Fragment>
+            <Modal modalState={state} modalSetState={setState} />
+            {formElement}
+          </React.Fragment>
+        )
+      : null}
+      {state.status === "formConfirmed" ? (
+          <Display displayState={state} displaySetState={setState} />
+        )
+      : null}
     </div>
   );
 }

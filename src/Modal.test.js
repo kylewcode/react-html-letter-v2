@@ -1,7 +1,6 @@
-import { prettyDOM, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import App from './App';
-import Modal from "./Modal";
 
 // FEATURE: Input validation
 // SCENARIO: A user enters their info including a valid address into the form and submits
@@ -9,7 +8,7 @@ import Modal from "./Modal";
 //  WHEN the user fills out the form and submits
 //  THEN a list of selectable valid (not null) addresses should appear including an option for 'no addresses found'
 
-it('displays a list of valid selectable addresses', () => {
+it('takes user input and displays the values in the form fields', () => {
     render(<App />);
 
     // User input variables
@@ -82,10 +81,9 @@ it('displays a list of valid selectable addresses', () => {
     const marriedEl = screen.getByRole('radio', {name: 'No'});
     userEvent.click(marriedEl);
     expect(marriedEl).toBeChecked();
-    // userEvent.click(screen.getByRole('button', {name: 'Submit'}));
 });
 
-// Test the modal here with mock API data
-
-// FEATURE: Input validation
-// SCENARIO: A user enters their info including an invalid address into the form and submits
+/* I decided to not take testing any further based off 
+advice from Vincent Tang that it would not be worth it to 
+spend a lot of time on testing as opposed to learning the tools
+to buidl out applications. */
