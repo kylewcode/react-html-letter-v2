@@ -1,6 +1,9 @@
 {
   "name": "react-html-letter-v2",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.x"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
@@ -22,8 +25,7 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "plugin:testing-library/react",
-      "plugin:jest-dom/recommended"
+      "plugin:testing-library/react"
     ]
   },
   "browserslist": {
@@ -44,5 +46,18 @@
     "eslint-plugin-testing-library": "^3.10.1",
     "prettier": "2.2.0",
     "react-test-renderer": "^17.0.1"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dead-Newbie/react-html-letter-v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dead-Newbie/react-html-letter-v2/issues"
+  },
+  "homepage": "https://github.com/Dead-Newbie/react-html-letter-v2#readme"
 }
