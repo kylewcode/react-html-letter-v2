@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import Display from "./Display";
 import "./App.css";
 
 function App() {
+  useEffect(() => {
+    fetch('http://localhost:5000')
+    .then(res => {
+      res.text().then(text => console.log(text));
+    });
+  }, [])
+
   const states = [
     "Alabama",
     "Alaska",
