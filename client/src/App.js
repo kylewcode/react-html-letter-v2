@@ -4,13 +4,6 @@ import Display from "./Display";
 import "./App.css";
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:5000')
-    .then(res => {
-      res.text().then(text => console.log(text));
-    });
-  }, [])
-
   const states = [
     "Alabama",
     "Alaska",
@@ -64,7 +57,7 @@ function App() {
     "Wisconsin",
     "Wyoming",
   ];
-  
+
   const statesJSX = [];
   for (const [index, value] of states.entries()) {
     statesJSX.push(
@@ -89,7 +82,7 @@ function App() {
     status: "fillingOutForm",
     dataStore: {},
   };
-  
+
   const [state, setState] = useState(() => initState);
 
   function handleSubmit(e) {
@@ -101,8 +94,7 @@ function App() {
 
   /* Address Validation */
 
-  const baseUrl =
-    `http://api.positionstack.com/v1/forward?access_key=${process.env.POSSTACK_APIKEY}&query=`;
+  const baseUrl = `http://api.positionstack.com/v1/forward?access_key=${process.env.POSSTACK_APIKEY}&query=`;
 
   // Server Request
   const updateUISuccess = function (response) {
@@ -315,16 +307,14 @@ function App() {
     <div>
       {state.status === "fillingOutForm" ? formElement : null}
       {state.status === "formSubmitted" ? (
-          <React.Fragment>
-            <Modal modalState={state} modalSetState={setState} />
-            {formElement}
-          </React.Fragment>
-        )
-      : null}
+        <React.Fragment>
+          <Modal modalState={state} modalSetState={setState} />
+          {formElement}
+        </React.Fragment>
+      ) : null}
       {state.status === "formConfirmed" ? (
-          <Display displayState={state} displaySetState={setState} />
-        )
-      : null}
+        <Display displayState={state} displaySetState={setState} />
+      ) : null}
     </div>
   );
 }

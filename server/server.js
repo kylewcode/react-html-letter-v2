@@ -10,7 +10,11 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send(process.env.TEST);
+  res.send('GET request to proxy');
+});
+
+app.post('/', (req, res) => {
+  res.send('POST request to proxy');
 });
 
 app.listen(PORT, () => {
