@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import Display from "./Display";
@@ -88,6 +89,7 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Sending request...");
+    // Make sure to trim() the whitespace from the inputs before inserting into the url
     const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
     createRequest(requestUrl);
   }
@@ -96,7 +98,7 @@ function App() {
 
   const baseUrl = `http://api.positionstack.com/v1/forward?access_key=${process.env.POSSTACK_APIKEY}&query=`;
 
-  // Server Request
+  // Server Request (This is going to be refactor as an async/await)
   const updateUISuccess = function (response) {
     const data = JSON.parse(response).data;
     setState({ ...state, dataStore: data, status: "formSubmitted" });
