@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "./Modal";
 import Display from "./Display";
 import "./App.css";
 
 function App() {
+  // Consider storing these states as a module that gets imported. Purpose, improved navigation and readability.
   const states = [
     "Alabama",
     "Alaska",
@@ -71,8 +72,7 @@ function App() {
   const initState = {
     firstName: "",
     lastName: "",
-    streetNumber: "",
-    streetName: "",
+    street: "",
     aptSuite: "",
     city: "",
     stateName: "",
@@ -88,93 +88,118 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Sending request...");
-    // Make sure to trim() the whitespace from the inputs before inserting into the url
-    const requestUrl = `${baseUrl}${state.streetNumber}%20${state.streetName}%20${state.stateName},%20${state.city}`;
-    createRequest(requestUrl);
+
+    // Front end handles validation and all form inputs except apt/suite are required
+    const requestBody = {
+      street: state.street,
+      city: state.city,
+      state: state.stateName,
+      zipcode: state.zipcode,
+    };
+
+    if (state.aptSuite) requestBody.secondary = state.aptSuite;
+
+    // (The response should equal the address form input values in state)()
+    requestData(requestBody);
+
+    // I don't currently know how I would keep onSubmit to a single purpose.
+    const inputs = e.target.elements;
+    const trimmedText = trimTextInputs(inputs);
+
+    setStateByObject(trimmedText);
+  }
+
+  function trimTextInputs(inputs) {
+    let trimmed;
+    let name;
+    const result = {};
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].nodeName === "INPUT" && inputs[i].type === "text") {
+        trimmed = inputs[i].value.trim();
+        name = inputs[i].name;
+      }
+      // Object is needed in order to update state properly because the key/name matches the state prop.
+      // Ex: name(firstName) state prop is firstName
+      result[name] = trimmed;
+    }
+    return result;
+  }
+
+  function setStateByObject(object) {
+    setState({ ...state, ...object });
+  }
+
+  function setStateByOnChange(key, value) {
+    setState({ ...state, [key]: value });
   }
 
   /* Address Validation */
-
-  const baseUrl = `http://api.positionstack.com/v1/forward?access_key=${process.env.POSSTACK_APIKEY}&query=`;
-
-  // Server Request (This is going to be refactor as an async/await)
-  const updateUISuccess = function (response) {
-    const data = JSON.parse(response).data;
-    setState({ ...state, dataStore: data, status: "formSubmitted" });
-  };
-
-  const updateUIError = function (error) {
-    console.log(error);
-  };
-
-  const responseMethod = function (httpRequest) {
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        updateUISuccess(httpRequest.responseText);
-      } else {
-        updateUIError(httpRequest.status + ": " + httpRequest.responseText);
-      }
-    }
-  };
-
-  const createRequest = function (url) {
-    const httpRequest = new XMLHttpRequest(url);
-    httpRequest.addEventListener("readystatechange", () => {
-      responseMethod(httpRequest);
-    });
-    httpRequest.open("GET", url);
-    httpRequest.send();
-  };
+  async function requestData(body) {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // What backound route would I be posting to with Heroku?
+    const res = await axios.post("http://localhost:5000", body, config);
+    console.log(res.data);
+  }
 
   const formElement = (
     <div className="user-inputs">
       <h1>Formal Letter Generator</h1>
       <p className="required-field">All fields required except Apt/Suite #</p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <ul>
           <li className="bg-bright">
             <label htmlFor="user-first-name">Enter your first name</label>
             <input
               type="text"
-              name="first-name"
+              name="firstName"
               id="user-first-name"
               value={state.firstName}
               required
-              onChange={(e) =>
-                setState({ ...state, firstName: e.target.value })
-              }
+              onChange={(e) => {
+                const key = e.target.name;
+                const value = e.target.value;
+                setStateByOnChange(key, value);
+              }}
             />
           </li>
           <li className="bg-bright">
             <label htmlFor="user-last-name">Enter your last name</label>
             <input
               type="text"
-              name="last-name"
+              name="lastName"
               id="user-last-name"
               value={state.lastName}
               required
-              onChange={(e) => setState({ ...state, lastName: e.target.value })}
+              onChange={(e) => {
+                const key = e.target.name;
+                const value = e.target.value;
+                setStateByOnChange(key, value);
+              }}
             />
           </li>
           <li className="bg-light">
             <fieldset>
               <legend>Mailing address</legend>
               <div>
-                <label htmlFor="user-street-number">Enter street number</label>
+                <label htmlFor="user-street">Street</label>
                 <input
                   type="text"
-                  name="street-number"
-                  id="user-street-number"
-                  value={state.streetNumber}
+                  name="street"
+                  id="user-street"
+                  value={state.street}
                   required
-                  pattern="\d+"
-                  onChange={(e) =>
-                    setState({ ...state, streetNumber: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const key = e.target.name;
+                    const value = e.target.value;
+                    setStateByOnChange(key, value);
+                  }}
                 />
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="user-street-name">Enter street name</label>
                 <input
                   type="text"
@@ -186,17 +211,19 @@ function App() {
                     setState({ ...state, streetName: e.target.value })
                   }
                 />
-              </div>
+              </div> */}
               <div>
                 <label htmlFor="user-apt-suite">Enter Apt/Suite</label>
                 <input
                   type="text"
-                  name="apt-suite"
+                  name="aptSuite"
                   id="user-apt-suite"
                   value={state.aptSuite}
-                  onChange={(e) =>
-                    setState({ ...state, aptSuite: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const key = e.target.name;
+                    const value = e.target.value;
+                    setStateByOnChange(key, value);
+                  }}
                 />
               </div>
               <div>
@@ -207,18 +234,24 @@ function App() {
                   id="user-city"
                   value={state.city}
                   required
-                  onChange={(e) => setState({ ...state, city: e.target.value })}
+                  onChange={(e) => {
+                    const key = e.target.name;
+                    const value = e.target.value;
+                    setStateByOnChange(key, value);
+                  }}
                 />
               </div>
               <div>
                 <label htmlFor="state-select">Select state</label>
                 <select
-                  name="state"
+                  name="stateName"
                   id="state-select"
                   required
-                  onChange={(e) =>
-                    setState({ ...state, stateName: e.currentTarget.value })
-                  }
+                  onChange={(e) => {
+                    const key = e.currentTarget.name;
+                    const value = e.currentTarget.value;
+                    setStateByOnChange(key, value);
+                  }}
                 >
                   <option>Select state</option>
                   {statesJSX}
@@ -233,9 +266,11 @@ function App() {
                   value={state.zipcode}
                   required
                   pattern="\d{5}"
-                  onChange={(e) =>
-                    setState({ ...state, zipcode: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const key = e.target.name;
+                    const value = e.target.value;
+                    setStateByOnChange(key, value);
+                  }}
                 />
               </div>
             </fieldset>
@@ -248,7 +283,11 @@ function App() {
               id="date-input"
               value={state.date}
               required
-              onChange={(e) => setState({ ...state, date: e.target.value })}
+              onChange={(e) => {
+                const key = e.target.name;
+                const value = e.target.value;
+                setStateByOnChange(key, value);
+              }}
             />
           </li>
           <li className="bg-light">

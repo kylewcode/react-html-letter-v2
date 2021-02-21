@@ -20,8 +20,6 @@ const credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
 
 let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 
-let lookup = new Lookup();
-
 // let whitelist = ['http://localhost:3000'];
 // const corsOptions = {
 //   origin: function (origin, callback) {
@@ -48,13 +46,31 @@ app.get('/', (req, res) => {
 //   console.log(req.body);
 //   res.send('POST request to proxy');
 // });
+
+// Need some kind of backend validation.
 app.post('/', async (req, res) => {
-  // Now I need to make a request to SmartyStreets. Can I invoke a request within a request?
+  
+  const body = req.body;
+  
   try {
-    // const { streetNumber, streetName, city, stateName } = req.body;
-    // lookup.street = streetNumber + ' ' + streetName;
+    // Trimming whitespace would be extra protection against search issues in the API by adding consistency in the data sent.
+    // for (const prop in body) {
+    //   if (body.hasOwnProperty(prop)) {
+    //     console.log(`body.${prop} = ${body[prop]}`);
+    //     body[prop] = body[prop].trim();
+    //   }
+    // }
+
+    // console.log(body);
+
+    // const { street, city, state, zipcode, secondary } = body;
+
+    // let lookup = new Lookup();
+    // lookup.street = street;
     // lookup.city = city;
-    // lookup.state = stateName;
+    // lookup.state = state;
+    // lookup.zipCode = zipcode;
+    // secondary ? lookup.secondary : null;
 
     // const data = await client.send(lookup);
     // const results = data.lookups[0].result;
