@@ -1,5 +1,7 @@
-import React from "react";
-import "./App.css";
+import React, { Fragment } from "react";
+import "./Display.css";
+
+import Button from 'react-bootstrap/Button'
 
 function Display({
   callParentState,
@@ -20,7 +22,7 @@ function Display({
   }
 
   return (
-    <div>
+    <Fragment>
       <address className="sender-column">
         <p>
           <b>Dr. Eleanor Gaye</b> <br />
@@ -189,9 +191,9 @@ function Display({
       </p>
       <div className="return-button">
         <h3>Made a mistake?</h3>
-        <button onClick={handleClick}>Click to return to form</button>
+        <Button onClick={handleClick}>Click to return to form</Button>
       </div>
-    </div>
+    </Fragment>
   );
 }
 

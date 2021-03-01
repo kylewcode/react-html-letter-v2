@@ -1,15 +1,15 @@
 /* Base Styles */
 
-body {
+/* body {
   max-width: 100%;
   margin: 0 5vw;
-}
+} */
 
-.sender-column {
+/* .sender-column {
   text-align: right;
-}
+} */
 
-h1 {
+/* h1 {
   font-size: 1.5em;
 }
 
@@ -42,11 +42,11 @@ button {
   text-decoration: none;
   margin: 6px 2px;
   cursor: pointer;
-}
+} */
 
 /* Form Styles */
 
-.user-inputs {
+/* .user-inputs {
   text-align: center;
 }
 
@@ -84,45 +84,23 @@ button {
 .user-inputs fieldset input,
 .user-inputs fieldset select {
   margin: 8px auto;
-}
+} */
 
 /* --Form colors */
 
-.bg-bright {
+/* .bg-bright {
   background-color: #37fdfc;
 }
 
 .bg-light {
   background-color: #bbffff;
-}
+} */
 
 /* Letter styles */
 
-.return-button {
+/* .return-button {
   text-align: center;
   margin: 20px 0px;
-}
-
-/* Modal Styles */
-
-.modal {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  /* overflow: auto; Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 10% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
 }
 
 .close {
@@ -137,4 +115,4 @@ button {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
+} */
