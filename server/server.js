@@ -58,7 +58,6 @@ app.post('/', async (req, res) => {
     // Trimming whitespace would be extra protection against search issues in the API by adding consistency in the data sent.
     for (const prop in body) {
       if (body.hasOwnProperty(prop)) {
-        console.log(`body.${prop} = ${body[prop]}`);
         body[prop] = body[prop].trim();
       }
     }
