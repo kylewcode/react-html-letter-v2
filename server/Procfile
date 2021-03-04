@@ -1,1 +1,2 @@
-web: npm start & npm start --prefix ../client
+web: npm start
+web: npm start --prefix ../client
