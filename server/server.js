@@ -37,6 +37,9 @@ let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 // app.options('/', cors(corsOptions));
 app.options('*', cors());
 
+app.get('/', async (req, res) => {
+   res.send('Server running...');
+});
 
 // cors() passed as middleware does not fix cors error
 // app.post('/', cors(corsOptions), (req, res) => {
