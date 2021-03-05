@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
 
 const SmartyStreetsSDK = require('smartystreets-javascript-sdk');
 const SmartyStreetsCore = SmartyStreetsSDK.core;
@@ -34,21 +33,20 @@ let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 //   },
 // };
 
-// app.options('/', cors(corsOptions));
-app.options('*', cors());
+const corsOptions = {
+  origin: 'https://formal-letter-generator.netlify.app/',
+  optionsSuccessStatus: 200,
+}
 
-app.get('/', async (req, res) => {
+app.options('/', cors(corsOptions));
+// app.options('*', cors());
+
+app.get('/', cors(), async (req, res) => {
    res.send('Server running...');
 });
 
-// cors() passed as middleware does not fix cors error
-// app.post('/', cors(corsOptions), (req, res) => {
-//   console.log(req.body);
-//   res.send('POST request to proxy');
-// });
-
 // Backend validation could happen here.
-app.post('/', async (req, res) => {
+app.post('/', cors(corsOptions) ,async (req, res) => {
   const body = req.body;
 
   try {
