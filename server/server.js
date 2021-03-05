@@ -34,7 +34,7 @@ let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 // };
 
 const corsOptions = {
-  origin: 'https://formal-letter-generator.netlify.app/',
+  origin: 'https://formal-letter-generator.netlify.app',
   optionsSuccessStatus: 200,
 }
 
