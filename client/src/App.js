@@ -26,15 +26,15 @@ function App() {
   }
 
   const initState = {
-    firstName: "",
-    lastName: "",
-    street: "",
+    firstName: "Kyle",
+    lastName: "Williams",
+    street: "10308 Kennebec CT",
     aptSuite: "",
-    city: "",
-    stateName: "",
-    zipcode: "",
-    date: "",
-    title: "",
+    city: "Orlando",
+    stateName: "Florida",
+    zipcode: "32817",
+    date: "2021-11-16",
+    title: "MR",
     status: "fillingOutForm",
   };
 

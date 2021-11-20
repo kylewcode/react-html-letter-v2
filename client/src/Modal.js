@@ -46,7 +46,7 @@ function Modal({ addressData, callParentState }) {
             const element = inputs[i];
             if (
               element.checked &&
-              element.computedRole === "radio" &&
+              element.name === "address-validate" &&
               element.value !== "none"
             ) {
               const { street, city, state, zipcode } = element.dataset;
@@ -61,7 +61,7 @@ function Modal({ addressData, callParentState }) {
             }
             if (
               element.checked &&
-              element.computedRole === "radio" &&
+              element.id === "validate-none" &&
               element.value === "none"
             ) {
               // User needs to return to the form if they don't see their address.
