@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useReducer } from "react";
 import { stateList } from "./utils/stateList";
 import Modal from "./Modal";
 import Display from "./Display";
@@ -26,17 +26,30 @@ function App() {
   }
 
   const initState = {
-    firstName: "Kyle",
-    lastName: "Williams",
-    street: "10308 Kennebec CT",
+    firstName: "",
+    lastName: "",
+    street: "",
     aptSuite: "",
-    city: "Orlando",
-    stateName: "Florida",
-    zipcode: "32817",
-    date: "2021-11-16",
-    title: "MR",
+    city: "",
+    stateName: "",
+    zipcode: "",
+    date: "",
+    title: "",
     status: "fillingOutForm",
   };
+
+  function formReducer(state, action) {
+    const { type, payload } = action;
+
+    switch (type) {
+      case "something":
+        return { ...state };
+      default:
+        return state;
+    }
+  }
+
+  const [formState, dispatch] = useReducer(formReducer, initState);
 
   const [state, setState] = useState(() => initState);
   const [responseData, setResponseData] = useState(() => null);
