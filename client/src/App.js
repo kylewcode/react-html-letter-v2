@@ -25,16 +25,29 @@ function App() {
     );
   }
 
+  // const initState = {
+  //   firstName: "",
+  //   lastName: "",
+  //   street: "",
+  //   aptSuite: "",
+  //   city: "",
+  //   stateName: "",
+  //   zipcode: "",
+  //   date: "",
+  //   title: "",
+  //   status: "fillingOutForm",
+  // };
+
   const initState = {
-    firstName: "",
-    lastName: "",
-    street: "",
+    firstName: "Kyle",
+    lastName: "Williams",
+    street: "10308 Kennebec CT",
     aptSuite: "",
-    city: "",
-    stateName: "",
-    zipcode: "",
-    date: "",
-    title: "",
+    city: "Orlando",
+    stateName: "Florida",
+    zipcode: "32817",
+    date: "2021-11-21",
+    title: "Mr",
     status: "fillingOutForm",
   };
 
@@ -44,6 +57,8 @@ function App() {
     switch (type) {
       case "CHANGE_INPUT":
         return { ...state, [payload.field]: payload.value };
+      case "VALIDATE_DATA":
+        return { ...state, status: "validatingData" };
       default:
         return state;
     }
@@ -51,34 +66,35 @@ function App() {
 
   const [formState, dispatch] = useReducer(formReducer, initState);
 
-  const [state, setState] = useState(() => initState);
+  // const [state, setState] = useState(() => initState);
   const [responseData, setResponseData] = useState(() => null);
   const [showInvalidError, setShowInvalidError] = useState(false);
   const [showSystemError, setShowSystemError] = useState(false);
 
-  function setStateByObject(object) {
-    setState({ ...state, ...object });
-  }
+  // function setStateByObject(object) {
+  //   setState({ ...state, ...object });
+  // }
 
-  function setStateByKeyValue(key, value) {
-    setState({ ...state, [key]: value });
-  }
+  // function setStateByKeyValue(key, value) {
+  //   setState({ ...state, [key]: value });
+  // }
 
   async function handleSubmit(e) {
     // Purpose #1 Submit form data to API request
     e.preventDefault();
 
-    setStateByKeyValue("status", "validatingData");
+    // Activate modal and begin data validation
+    dispatch({ type: "VALIDATE_DATA", payload: null });
 
     // Front end handles validation and all form inputs except apt/suite are required
     const requestBody = {
-      street: state.street,
-      city: state.city,
-      state: state.stateName,
-      zipcode: state.zipcode,
+      street: formState.street,
+      city: formState.city,
+      state: formState.stateName,
+      zipcode: formState.zipcode,
     };
 
-    if (state.aptSuite) requestBody.secondary = state.aptSuite;
+    if (formState.aptSuite) requestBody.secondary = formState.aptSuite;
 
     const dataValidated = await requestData(requestBody);
 
@@ -88,7 +104,7 @@ function App() {
 
     // Modal needs to be displayed after form is submitted.
     if (dataValidated) newState.status = "formSubmitted";
-    setStateByObject(newState);
+    // setStateByObject(newState);
   }
 
   function trimTextInputs(inputs) {
@@ -363,13 +379,13 @@ function App() {
 
   return (
     <Container className="my-md-3 border bg-light shadow rounded">
-      {state.status === "fillingOutForm" ? formElement : null}
-      {state.status === "validatingData" ? (
+      {formState.status === "fillingOutForm" ? formElement : null}
+      {formState.status === "validatingData" ? (
         <Fragment>
           <ModalContainer
             backdrop="static"
             centered
-            show={state.status === "validatingData"}
+            show={formState.status === "validatingData"}
           >
             <ModalContainer.Header>
               <ModalContainer.Title>Confirming address...</ModalContainer.Title>
@@ -383,27 +399,27 @@ function App() {
           {formElement}
         </Fragment>
       ) : null}
-      {state.status === "formSubmitted" ? (
+      {formState.status === "formSubmitted" ? (
         <Fragment>
           <ModalContainer
             backdrop="static"
             centered
-            show={state.status === "formSubmitted"}
+            show={formState.status === "formSubmitted"}
           >
             <ModalContainer.Body>
               <Modal
                 addressData={responseData}
-                callParentState={(data) => setStateByObject(data)}
+                // callParentState={(data) => setStateByObject(data)}
               />
             </ModalContainer.Body>
           </ModalContainer>
           {formElement}
         </Fragment>
       ) : null}
-      {state.status === "formConfirmed" ? (
+      {formState.status === "formConfirmed" ? (
         <Display
-          formData={state}
-          callParentState={(key, value) => setStateByKeyValue(key, value)}
+          formData={formState}
+          // callParentState={(key, value) => setStateByKeyValue(key, value)}
         />
       ) : null}
     </Container>
