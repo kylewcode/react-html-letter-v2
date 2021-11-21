@@ -42,8 +42,8 @@ function App() {
     const { type, payload } = action;
 
     switch (type) {
-      case "something":
-        return { ...state };
+      case "CHANGE_INPUT":
+        return { ...state, [payload.field]: payload.value };
       default:
         return state;
     }
@@ -149,6 +149,18 @@ function App() {
     return true;
   }
 
+  const updateStateWithInputValue = (e) => {
+    const field = e.target.name;
+    const value = e.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   const formElement = (
     <Fragment>
       <Row className="justify-content-center">
@@ -180,12 +192,10 @@ function App() {
                     type="text"
                     name="firstName"
                     id="user-first-name"
-                    value={state.firstName}
+                    value={formState.firstName}
                     required
                     onChange={(e) => {
-                      const key = e.target.name;
-                      const value = e.target.value;
-                      setStateByKeyValue(key, value);
+                      updateStateWithInputValue(e);
                     }}
                   />
                 </Form.Group>
@@ -197,12 +207,10 @@ function App() {
                     type="text"
                     name="lastName"
                     id="user-last-name"
-                    value={state.lastName}
+                    value={formState.lastName}
                     required
                     onChange={(e) => {
-                      const key = e.target.name;
-                      const value = e.target.value;
-                      setStateByKeyValue(key, value);
+                      updateStateWithInputValue(e);
                     }}
                   />
                 </Form.Group>
@@ -231,12 +239,10 @@ function App() {
                       type="text"
                       name="street"
                       id="user-street"
-                      value={state.street}
+                      value={formState.street}
                       required
                       onChange={(e) => {
-                        const key = e.target.name;
-                        const value = e.target.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     />
                   </Form.Group>
@@ -247,11 +253,9 @@ function App() {
                       type="text"
                       name="aptSuite"
                       id="user-apt-suite"
-                      value={state.aptSuite}
+                      value={formState.aptSuite}
                       onChange={(e) => {
-                        const key = e.target.name;
-                        const value = e.target.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     />
                   </Form.Group>
@@ -264,12 +268,10 @@ function App() {
                       type="text"
                       name="city"
                       id="user-city"
-                      value={state.city}
+                      value={formState.city}
                       required
                       onChange={(e) => {
-                        const key = e.target.name;
-                        const value = e.target.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     />
                   </Form.Group>
@@ -280,12 +282,10 @@ function App() {
                       as="select"
                       name="stateName"
                       id="state-select"
-                      value={state.stateName}
+                      value={formState.stateName}
                       required
                       onChange={(e) => {
-                        const key = e.currentTarget.name;
-                        const value = e.currentTarget.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     >
                       <option>Select state</option>
@@ -299,13 +299,11 @@ function App() {
                       type="text"
                       name="zipcode"
                       id="user-zipcode"
-                      value={state.zipcode}
+                      value={formState.zipcode}
                       required
                       pattern="\d{5}"
                       onChange={(e) => {
-                        const key = e.target.name;
-                        const value = e.target.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     />
                     <Form.Text>Zipcodes must be 5 numbers.</Form.Text>
@@ -319,12 +317,10 @@ function App() {
                       type="date"
                       name="date"
                       id="date-input"
-                      value={state.date}
+                      value={formState.date}
                       required
                       onChange={(e) => {
-                        const key = e.target.name;
-                        const value = e.target.value;
-                        setStateByKeyValue(key, value);
+                        updateStateWithInputValue(e);
                       }}
                     />
                   </Form.Group>
@@ -340,13 +336,11 @@ function App() {
                   type="text"
                   name="title"
                   id="user-title"
-                  value={state.title}
+                  value={formState.title}
                   placeholder="Mr, Mrs, Ms, etc..."
                   required
                   onChange={(e) => {
-                    const key = e.target.name;
-                    const value = e.target.value;
-                    setStateByKeyValue(key, value);
+                    updateStateWithInputValue(e);
                   }}
                 />
               </Form.Group>
