@@ -49,6 +49,7 @@ function App() {
     date: "2021-11-21",
     title: "Mr",
     status: "fillingOutForm",
+    addresses: [],
   };
 
   function formReducer(state, action) {
@@ -57,7 +58,7 @@ function App() {
     switch (type) {
       case "CHANGE_INPUT":
         return { ...state, [payload.field]: payload.value };
-      case "VALIDATE_DATA":
+      case "ACTIVATE_MODAL":
         return { ...state, status: "validatingData" };
       default:
         return state;
@@ -66,8 +67,6 @@ function App() {
 
   const [formState, dispatch] = useReducer(formReducer, initState);
 
-  // const [state, setState] = useState(() => initState);
-  const [responseData, setResponseData] = useState(() => null);
   const [showInvalidError, setShowInvalidError] = useState(false);
   const [showSystemError, setShowSystemError] = useState(false);
 
@@ -80,31 +79,19 @@ function App() {
   // }
 
   async function handleSubmit(e) {
-    // Purpose #1 Submit form data to API request
     e.preventDefault();
 
-    // Activate modal and begin data validation
-    dispatch({ type: "VALIDATE_DATA", payload: null });
+    dispatch({ type: "ACTIVATE_MODAL", payload: null });
 
-    // Front end handles validation and all form inputs except apt/suite are required
-    const requestBody = {
-      street: formState.street,
-      city: formState.city,
-      state: formState.stateName,
-      zipcode: formState.zipcode,
-    };
+    formState.addresses = await getAddresses();
 
-    if (formState.aptSuite) requestBody.secondary = formState.aptSuite;
+    // Since errors with fetching data are handled in getAddresses(), this code runs to stop any further action.
+    if (formState.addresses === null) {
+      return;
+    }
 
-    const dataValidated = await requestData(requestBody);
-
-    // Purpose#2 Update the state to trigger Modal render with trimmed whitespace data otherwise the rendered letter will be formatted incorrectly. I don't currently know how I would keep onSubmit to a single purpose.
     const inputs = e.target.elements;
     const newState = trimTextInputs(inputs);
-
-    // Modal needs to be displayed after form is submitted.
-    if (dataValidated) newState.status = "formSubmitted";
-    // setStateByObject(newState);
   }
 
   function trimTextInputs(inputs) {
@@ -124,7 +111,16 @@ function App() {
   }
 
   /* Address Validation */
-  async function requestData(body) {
+  async function getAddresses() {
+    const body = {
+      street: formState.street,
+      city: formState.city,
+      state: formState.stateName,
+      zipcode: formState.zipcode,
+    };
+
+    if (formState.aptSuite) body.secondary = formState.aptSuite;
+
     try {
       const config = {
         headers: {
@@ -138,13 +134,7 @@ function App() {
       const isValidated = validateData(res.data);
 
       // Because of how the data from the request is scoped here and invoked in handleSubmit, React state is the only option I can think of that can pass the data to the Modal component in the App render.
-      if (isValidated) {
-        setResponseData(res.data);
-        return true;
-      } else {
-        setResponseData(null);
-        return false;
-      }
+      return isValidated ? res.data : null;
     } catch (err) {
       console.log(err);
     }
@@ -408,7 +398,7 @@ function App() {
           >
             <ModalContainer.Body>
               <Modal
-                addressData={responseData}
+                addressData={formState.addresses}
                 // callParentState={(data) => setStateByObject(data)}
               />
             </ModalContainer.Body>

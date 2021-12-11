@@ -71,7 +71,7 @@ app.post("/", cors(corsOptions), async (req, res) => {
     setTimeout(() => {
       res.send(dummyData);
       // res.send([]);
-      // res.send({some: 123});
+      // res.send({ some: 123 });
     }, 3000);
   } catch (err) {
     console.error(err.message);
