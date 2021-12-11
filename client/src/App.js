@@ -60,6 +60,21 @@ function App() {
         return { ...state, [payload.field]: payload.value };
       case "ACTIVATE_MODAL":
         return { ...state, status: "validatingData" };
+      case "TRIM_TEXT_INPUTS":
+        const inputs = payload;
+        let trimmed;
+        let name;
+        const result = {};
+        for (let i = 0; i < inputs.length; i++) {
+          if (inputs[i].nodeName === "INPUT" && inputs[i].type === "text") {
+            trimmed = inputs[i].value.trim();
+            name = inputs[i].name;
+          }
+          result[name] = trimmed;
+        }
+        return { ...state, ...result };
+      case "DISPLAY_ADDRESSES":
+        return { ...state, status: "formSubmitted" };
       default:
         return state;
     }
@@ -91,26 +106,10 @@ function App() {
     }
 
     const inputs = e.target.elements;
-    const newState = trimTextInputs(inputs);
+    dispatch({ type: "TRIM_TEXT_INPUTS", payload: inputs });
+    dispatch({ type: "DISPLAY_ADDRESSES", payload: null });
   }
 
-  function trimTextInputs(inputs) {
-    let trimmed;
-    let name;
-    const result = {};
-    for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].nodeName === "INPUT" && inputs[i].type === "text") {
-        trimmed = inputs[i].value.trim();
-        name = inputs[i].name;
-      }
-      // Object is needed in order to update state properly because the key/name matches the state prop.
-      // Ex: name(firstName) state prop is firstName
-      result[name] = trimmed;
-    }
-    return result;
-  }
-
-  /* Address Validation */
   async function getAddresses() {
     const body = {
       street: formState.street,
