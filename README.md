@@ -12,7 +12,7 @@ Address information is filtered and returned using a geolocation API that presen
 
 ## Installation
 
-This project has a backend proxy written in Node.js with Express that serves the environment variables that contain the API key and directly interfaces with the [SmartyStreets US Street Address API](https://smartystreets.com/docs/cloud/us-street-api). 
+This project has a backend proxy written in Node.js with Express that serves the environment variables that contain the API key and directly interfaces with the [SmartyStreets US Street Address API](https://smartystreets.com/docs/cloud/us-street-api).
 
 I hosted the back-end on Heroku and the front-end on Netlify. The folder structure has a mostly empty root with the main development scripts contained in `/server` whereas the front-end is `/client`.
 
@@ -46,12 +46,18 @@ If the address is invalid, an error message will be displayed. If there happens 
 
 ![Image](client/src/img/invalid-address-error-600w.jpeg)
 
+## Deployment
+
+Since the folder structure is ~/client and ~/server, git subtrees have to be used in order to properly deploy. For the server host Heroku that would be `git subtree push --prefix path/to/subdirectory heroku master`.
+
 ## Support
 
 Contact me on Twitter [@kylewcode](https://twitter.com/kylewcode) or leave a Git issue.
 
 ## Acknowledgment
+
 Thanks to the [Orlando Devs](https://orlandodevs.com/) for the advice and guidance in creating this.
 
 ## License
+
 [MIT License](https://choosealicense.com/licenses/mit/#)
