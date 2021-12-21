@@ -14,7 +14,6 @@ import ModalContainer from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
-// The purpose of this component is to maintain the global state and determine the rendering of all other components.
 function App() {
   const statesJSX = [];
   for (const [index, value] of stateList.entries()) {
@@ -25,32 +24,34 @@ function App() {
     );
   }
 
-  // const initState = {
-  //   firstName: "",
-  //   lastName: "",
-  //   street: "",
-  //   aptSuite: "",
-  //   city: "",
-  //   stateName: "",
-  //   zipcode: "",
-  //   date: "",
-  //   title: "",
-  //   status: "fillingOutForm",
-  // };
-
+  // State for production
   const initState = {
-    firstName: "Kyle",
-    lastName: "Williams",
-    street: "10308 Kennebec CT",
+    firstName: "",
+    lastName: "",
+    street: "",
     aptSuite: "",
-    city: "Orlando",
-    stateName: "Florida",
-    zipcode: "32817",
-    date: "2021-11-21",
-    title: "Mr",
+    city: "",
+    stateName: "",
+    zipcode: "",
+    date: "",
+    title: "",
     status: "fillingOutForm",
-    addresses: [],
   };
+
+  // State for quick testing
+  // const initState = {
+  //   firstName: "Kyle",
+  //   lastName: "Williams",
+  //   street: "10308 Kennebec CT",
+  //   aptSuite: "",
+  //   city: "Orlando",
+  //   stateName: "Florida",
+  //   zipcode: "32817",
+  //   date: "2021-11-21",
+  //   title: "Mr",
+  //   status: "fillingOutForm",
+  //   addresses: [],
+  // };
 
   function formReducer(state, action) {
     const { type, payload } = action;
@@ -79,6 +80,10 @@ function App() {
         return { ...state, addresses: payload };
       case "DISPLAY_ADDRESSES":
         return { ...state, status: "formSubmitted" };
+      case "DISPLAY_LETTER":
+        return { ...state, ...payload };
+      case "DISPLAY_FORM":
+        return { ...state, status: "fillingOutForm" };
       default:
         return state;
     }
@@ -394,17 +399,14 @@ function App() {
             show={formState.status === "formSubmitted"}
           >
             <ModalContainer.Body>
-              <Modal addresses={formState.addresses} />
+              <Modal addresses={formState.addresses} dispatch={dispatch} />
             </ModalContainer.Body>
           </ModalContainer>
           {formElement}
         </Fragment>
       ) : null}
       {formState.status === "formConfirmed" ? (
-        <Display
-          formData={formState}
-          // callParentState={(key, value) => setStateByKeyValue(key, value)}
-        />
+        <Display formData={formState} dispatch={dispatch} />
       ) : null}
     </Container>
   );

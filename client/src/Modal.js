@@ -4,9 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-// @purpose To allow the user to validate the address based off a list of choices and send the correct address back to App.
-// @data SmartyStreets list of addresses
-function Modal({ addresses }) {
+function Modal({ addresses, dispatch }) {
   const displayAddresses = (addresses) =>
     addresses.map((address, index) => {
       const fullAddress = `${address.deliveryLine1}, ${address.lastLine}`;
@@ -57,17 +55,15 @@ function Modal({ addresses }) {
                 zipcode: zipcode,
                 status: "formConfirmed",
               };
+              dispatch({ type: "DISPLAY_LETTER", payload: data });
             }
             if (
               element.checked &&
               element.id === "validate-none" &&
               element.value === "none"
             ) {
-              // User needs to return to the form if they don't see their address.
-              const data = {
-                status: "fillingOutForm",
-              };
               window.alert("Returning to form. Please reenter your address.");
+              dispatch({ type: "DISPLAY_FORM", payload: null });
             }
           }
         }}

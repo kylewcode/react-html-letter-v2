@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import "./Display.css";
 
-import Button from 'react-bootstrap/Button'
+import Button from "react-bootstrap/Button";
 
 function Display({
-  callParentState,
+  dispatch,
   formData: {
     firstName,
     lastName,
@@ -18,7 +18,7 @@ function Display({
   },
 }) {
   function handleClick() {
-    callParentState("status", "fillingOutForm");
+    dispatch({ type: "DISPLAY_FORM", payload: null });
   }
 
   return (
