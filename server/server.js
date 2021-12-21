@@ -35,7 +35,6 @@ const corsOptions = {
 };
 
 app.options("/", cors(corsOptions));
-// app.options('*', cors());
 
 app.get("/", cors(), async (req, res) => {
   res.send("Server running...");
@@ -46,33 +45,32 @@ app.post("/", cors(corsOptions), async (req, res) => {
   const body = req.body;
 
   try {
-    // Trimming whitespace would be extra protection against search issues in the API by adding consistency in the data sent.
     for (const prop in body) {
       if (body.hasOwnProperty(prop)) {
         body[prop] = body[prop].trim();
       }
     }
 
-    // const { street, city, state, zipcode, secondary } = body;
+    const { street, city, state, zipcode, secondary } = body;
 
-    // let lookup = new Lookup();
-    // lookup.street = street;
-    // lookup.city = city;
-    // lookup.state = state;
-    // lookup.zipCode = zipcode;
-    // secondary ? lookup.secondary : null;
+    let lookup = new Lookup();
+    lookup.street = street;
+    lookup.city = city;
+    lookup.state = state;
+    lookup.zipCode = zipcode;
+    secondary ? lookup.secondary : null;
 
-    // const data = await client.send(lookup);
-    // const results = data.lookups[0].result;
+    const data = await client.send(lookup);
+    const results = data.lookups[0].result;
 
-    // res.send(results);
+    res.send(results);
 
     // Dummy data to save on API requests and simulate time to fetch data.
-    setTimeout(() => {
-      res.send(dummyData);
-      // res.send([]);
-      // res.send({ some: 123 });
-    }, 3000);
+    // setTimeout(() => {
+    //   res.send(dummyData);
+    //   // res.send([]);
+    //   // res.send({ some: 123 });
+    // }, 3000);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
