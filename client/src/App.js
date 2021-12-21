@@ -60,6 +60,8 @@ function App() {
         return { ...state, [payload.field]: payload.value };
       case "ACTIVATE_MODAL":
         return { ...state, status: "validatingData" };
+      case "DEACTIVATE_MODAL":
+        return { ...state, status: "fillingOutForm" };
       case "TRIM_TEXT_INPUTS":
         const inputs = payload;
         let trimmed;
@@ -73,6 +75,8 @@ function App() {
           result[name] = trimmed;
         }
         return { ...state, ...result };
+      case "UPDATE_ADDRESSES":
+        return { ...state, addresses: payload };
       case "DISPLAY_ADDRESSES":
         return { ...state, status: "formSubmitted" };
       default:
@@ -85,25 +89,19 @@ function App() {
   const [showInvalidError, setShowInvalidError] = useState(false);
   const [showSystemError, setShowSystemError] = useState(false);
 
-  // function setStateByObject(object) {
-  //   setState({ ...state, ...object });
-  // }
-
-  // function setStateByKeyValue(key, value) {
-  //   setState({ ...state, [key]: value });
-  // }
-
   async function handleSubmit(e) {
     e.preventDefault();
 
     dispatch({ type: "ACTIVATE_MODAL", payload: null });
 
-    formState.addresses = await getAddresses();
+    const addresses = await getAddresses();
 
     // Since errors with fetching data are handled in getAddresses(), this code runs to stop any further action.
-    if (formState.addresses === null) {
+    if (addresses === null) {
       return;
     }
+
+    dispatch({ type: "UPDATE_ADDRESSES", payload: addresses });
 
     const inputs = e.target.elements;
     dispatch({ type: "TRIM_TEXT_INPUTS", payload: inputs });
@@ -126,13 +124,11 @@ function App() {
           "Content-Type": "application/json",
         },
       };
-      // What backound route would I be posting to with Heroku?
       // const res = await axios.post("https://formal-letter-generator.herokuapp.com/", body, config);
       const res = await axios.post("http://localhost:5000", body, config);
 
       const isValidated = validateData(res.data);
 
-      // Because of how the data from the request is scoped here and invoked in handleSubmit, React state is the only option I can think of that can pass the data to the Modal component in the App render.
       return isValidated ? res.data : null;
     } catch (err) {
       console.log(err);
@@ -143,12 +139,14 @@ function App() {
     if (Array.isArray(data) && data.length === 0) {
       // If SmartyStreets gets an invalid address it sends back an empty array. This triggers an error to notify the user.
       setShowInvalidError(true);
+      dispatch({ type: "DEACTIVATE_MODAL", payload: null });
       return false;
     }
 
     if (!Array.isArray(data)) {
       // This error is just in case the API sends data that's completely wrong and notifies user.
       setShowSystemError(true);
+      dispatch({ type: "DEACTIVATE_MODAL", payload: null });
       return false;
     }
     return true;
@@ -396,10 +394,7 @@ function App() {
             show={formState.status === "formSubmitted"}
           >
             <ModalContainer.Body>
-              <Modal
-                addressData={formState.addresses}
-                // callParentState={(data) => setStateByObject(data)}
-              />
+              <Modal addresses={formState.addresses} />
             </ModalContainer.Body>
           </ModalContainer>
           {formElement}

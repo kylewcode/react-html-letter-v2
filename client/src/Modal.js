@@ -6,9 +6,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 // @purpose To allow the user to validate the address based off a list of choices and send the correct address back to App.
 // @data SmartyStreets list of addresses
-function Modal({ addressData, callParentState }) {
-  const displayAddresses = (data) =>
-    data.map((address, index) => {
+function Modal({ addresses }) {
+  const displayAddresses = (addresses) =>
+    addresses.map((address, index) => {
       const fullAddress = `${address.deliveryLine1}, ${address.lastLine}`;
       const { cityName, state, zipCode } = address.components;
       return (
@@ -57,7 +57,6 @@ function Modal({ addressData, callParentState }) {
                 zipcode: zipcode,
                 status: "formConfirmed",
               };
-              callParentState(data);
             }
             if (
               element.checked &&
@@ -69,12 +68,11 @@ function Modal({ addressData, callParentState }) {
                 status: "fillingOutForm",
               };
               window.alert("Returning to form. Please reenter your address.");
-              callParentState(data);
             }
           }
         }}
       >
-        {addressData === null ? null : displayAddresses(addressData)}
+        {addresses === null ? null : displayAddresses(addresses)}
         <ListGroup>
           <ListGroup.Item>
             <Form.Check
