@@ -23,16 +23,16 @@ const credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
 let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 
 // Needed to run production app where frontend is hosted on netlify
-// const corsOptions = {
-//   origin: 'https://formal-letter-generator.netlify.app',
-//   optionsSuccessStatus: 200,
-// }
-
-// Needed to run app on local development
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://formal-letter-generator.netlify.app",
   optionsSuccessStatus: 200,
 };
+
+// Needed to run app on local development
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   optionsSuccessStatus: 200,
+// };
 
 app.options("/", cors(corsOptions));
 

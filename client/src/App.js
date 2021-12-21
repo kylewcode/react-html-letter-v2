@@ -129,8 +129,12 @@ function App() {
           "Content-Type": "application/json",
         },
       };
-      // const res = await axios.post("https://formal-letter-generator.herokuapp.com/", body, config);
-      const res = await axios.post("http://localhost:5000", body, config);
+      const res = await axios.post(
+        "https://formal-letter-generator.herokuapp.com/",
+        body,
+        config
+      );
+      // const res = await axios.post("http://localhost:5000", body, config);
 
       const isValidated = validateData(res.data);
 
